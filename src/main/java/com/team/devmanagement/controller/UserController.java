@@ -19,6 +19,7 @@ public class UserController {
         password = Utils.pwdEncrypt(username,password);
         User user = userService.query(username,password);
         msg.setObj(user);
+//      错误时会输出这个信息
         msg.setMsg("传入的值："+username+" "+password);
         if(user != null) {
             msg.setStatus(200);
