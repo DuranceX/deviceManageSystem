@@ -5,16 +5,20 @@ import com.team.devmanagement.model.User;
 import com.team.devmanagement.service.UserService;
 import com.team.devmanagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
 public class UserController {
     @Autowired
     UserService userService;
-    @PostMapping ("/login")
-    public Msg login(@RequestParam(value = "username") String username,@RequestParam(value="password") String password){
+    @GetMapping ("/login")
+    public Msg login(@RequestParam(value = "username") String username,@RequestParam(value="password") String password,
+                     HttpSession session){
         Msg msg = new Msg();
         password = Utils.pwdEncrypt(username,password);
         User user = userService.query(username,password);
@@ -25,13 +29,25 @@ public class UserController {
             msg.setStatus(200);
             msg.setMsg("登陆成功");
             msg.setObj(user);
+            session.setAttribute("userid",user.getId());
         }
+
         return msg;
     }
 
-    @PostMapping("/updateUser")
-    public Msg update(@RequestBody User user){
+    @GetMapping("/updateUser")
+    public Msg update(@RequestBody User user,HttpSession session){
         Msg msg = new Msg();
+        Object uid = session.getAttribute("userid");
+        if(uid==null) {
+            msg.setMsg("请先登陆");
+            return msg;
+        }
+        User curUser = userService.getUserById(Integer.parseInt(uid.toString()));
+        if(!curUser.getAdmin()){
+            msg.setMsg("没有权限");
+            return msg;
+        }
         int result = userService.updateUser(user);
         if(result==0){
             msg.setMsg("更改用户信息失败");
@@ -42,9 +58,19 @@ public class UserController {
         return msg;
     }
 
-    @PostMapping("/deleteUserById")
-    public Msg deleteUser(@RequestParam Integer id){
+    @GetMapping("/deleteUserById")
+    public Msg deleteUser(@RequestParam Integer id,HttpSession session){
         Msg msg = new Msg();
+        Object uid = session.getAttribute("userid");
+        if(uid==null) {
+            msg.setMsg("请先登陆");
+            return msg;
+        }
+        User curUser = userService.getUserById(Integer.parseInt(uid.toString()));
+        if(!curUser.getAdmin()){
+            msg.setMsg("没有权限");
+            return msg;
+        }
         int result = userService.deleteUserById(id);
         if(result==0){
             msg.setMsg("删除用户信息失败");
@@ -82,6 +108,15 @@ public class UserController {
         return msg;
 
 
+    }
+
+    @GetMapping("/logout")
+    public Msg logout(HttpSession session){
+        Msg msg = new Msg();
+        session.removeAttribute("userid");
+        msg.setStatus(200);
+        msg.setMsg("注销成功");
+        return msg;
     }
     @GetMapping("/test")
     public List<User> test(){
