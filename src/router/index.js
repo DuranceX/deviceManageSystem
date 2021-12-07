@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { MessageBox } from 'element-ui'
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
 import Register from '../components/Register.vue'
@@ -72,7 +73,11 @@ router.beforeEach((to,from,next)=>{
     }
     var name = window.sessionStorage.getItem("username");
     if(name === ''){
-        next({path:"/",query:{redirect:to.path}});
+        MessageBox.confirm("请先登录！",{
+            callback:()=>{
+                next({path:"/",query:{redirect:to.path}});
+            }
+        });
     }
     else{
         next();

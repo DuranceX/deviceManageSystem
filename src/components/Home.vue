@@ -86,6 +86,7 @@ export default {
         handleCommand(command) {
             console.log(command);
             if(command === 'logout'){
+                this.$store.commit('userStore/logout');
                 this.$router.replace({path:"/"});
             }
         }

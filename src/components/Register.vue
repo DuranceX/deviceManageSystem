@@ -1,12 +1,14 @@
 <template>
-    <div class="login-Container">
-        <el-form label-width="80px">
-            <h2>设备管理系统——注册</h2>
-            <el-input type="text" v-model="name" placeholder="用户名"></el-input>
-            <el-input type="password" v-model="password" placeholder="密码"></el-input>
-            <el-button type="primary" @click="register()">注册</el-button>
-            <el-button @click="submit()">登录</el-button>
-        </el-form>
+    <div>
+        <div class="login-Container">
+            <el-form label-width="80px">
+                <h2>设备管理系统——注册</h2>
+                <el-input type="text" v-model="name" placeholder="用户名"></el-input>
+                <el-input type="password" v-model="password" placeholder="密码"></el-input>
+                <el-button type="primary" @click="register()">注册</el-button>
+                <el-button @click="submit()">登录</el-button>
+            </el-form>
+        </div>
     </div>
 </template>
 

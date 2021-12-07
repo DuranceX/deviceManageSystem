@@ -14,20 +14,20 @@ export const putRequest = (url, params) => {
     return axios({
         method: 'put',
         url: `${base}${url}`,
-        data: params
+        data: qs.stringify(params)
     })
 }
 export const getRequest = (url, params) => {
     return axios({
         method: 'get',
         url: `${base}${url}`,
-        params: params
+        params: qs.stringify(params)
     })
 }
 export const deleteRequest = (url, params) => {
     return axios({
         method: 'delete',
         url: `${base}${url}`,
-        params: params
+        params: qs.stringify(params)
     })
 }
