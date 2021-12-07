@@ -1,43 +1,11 @@
 <template>
     <div style="height:100%">
-        <!-- <el-container>
-            <el-header class="homeHeader">
-                <div class="title">设备管理系统</div>
-                <div>
-                    <el-button icon="el-icon-bell" type="text" style="margin-right: 8px;color:white" size="normal"></el-button>
-                    <el-dropdown class="userInfo">
-                        <span class="el-dropdown-link">
-                            {{username}}
-                        </span>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
-                            <el-dropdown-item command="setting">设置</el-dropdown-item>
-                            <el-dropdown-item command="logout" divided>注销登录</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                </div>
-            </el-header>
-            <el-container>
-                <el-aside width="200px">
-                    <el-menu router unique-opened>
-                        大师傅大师傅
-                    </el-menu>
-                </el-aside>
-                <el-main>
-                    <el-breadcrumb separator-class="el-icon-arrow-right">
-                        <el-breadcrumb-item>首页</el-breadcrumb-item>
-                        <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
-                    </el-breadcrumb>
-                    <router-view class="homeRouterView"/>
-                </el-main>
-            </el-container>
-        </el-container> -->
         <el-container>
             <el-header>
-                <div class="title" @click="backToHome()">设备管理系统</div>
+                <button class="title" @click="backToHome()">设备管理系统</button>
                 <div>
                     <el-button icon="el-icon-bell" type="text" style="margin-right: 8px;color:white" size="normal"></el-button>
-                    <el-dropdown class="userInfo">
+                    <el-dropdown @command="handleCommand">
                         <span class="el-dropdown-link">
                             {{username}}
                         </span>
@@ -57,27 +25,27 @@
                         class="el-menu-vertical-demo">
                             <el-menu-item index="1" @click="switchRoute('Purchase')">
                                 <i class="el-icon-menu"></i>
-                                <span slot="title">购买管理</span>
+                                <span>购买管理</span>
                             </el-menu-item>
                             <el-menu-item index="2" @click="switchRoute('Lease')">
                                 <i class="el-icon-menu"></i>
-                                <span slot="title">转借管理</span>
+                                <span>转借管理</span>
                             </el-menu-item>
                             <el-menu-item index="3" @click="switchRoute('Maintain')">
                                 <i class="el-icon-document"></i>
-                                <span slot="title">维修管理</span>
+                                <span>维修管理</span>
                             </el-menu-item>
                             <el-menu-item index="4" @click="switchRoute('Inventory')">
                                 <i class="el-icon-setting"></i>
-                                <span slot="title">库存管理</span>
+                                <span>库存管理</span>
                             </el-menu-item>
                             <el-menu-item index="5" @click="switchRoute('Scrap')">
                                 <i class="el-icon-setting"></i>
-                                <span slot="title">报废管理</span>
+                                <span>报废管理</span>
                             </el-menu-item>
                             <el-menu-item index="6" @click="switchRoute('UserManage')">
                                 <i class="el-icon-setting"></i>
-                                <span slot="title">用户管理</span>
+                                <span>用户管理</span>
                             </el-menu-item>
                         </el-menu>
                     </el-col>
@@ -91,31 +59,56 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
 
 export default {
     name:"Home",
-    computed:{
-        ...mapState('userStore',['username','userid',"admin"])
+    data(){
+        return{
+            username:'',
+            admin:false,
+        }
     },
     methods:{
         switchRoute(name){
-            this.$router.push({
-                name: name,
-                query:{
-                    admin:this.$store.state.admin,
-                }
-            })
+            if(this.$route.name !== name){
+                this.$router.push({
+                    name: name,
+                    query:{
+                        admin:this.$store.state.admin,
+                    }
+                })
+            }
         },
         backToHome(){
-            this.$router.push({path:'/'});
+            if(this.$route.name !== 'Home')
+                this.$router.push({path:'/Home'});
+        },
+        handleCommand(command) {
+            console.log(command);
+            if(command === 'logout'){
+                this.$router.replace({path:"/"});
+            }
         }
+    },
+    mounted(){
+        this.username = window.sessionStorage.getItem('username');
+        this.admin = window.sessionStorage.getItem('admin');
     }
 }
 </script>
 
 
 <style lang="css">
+    html,body{
+        height: 100%;
+    }
+
+    .title{
+        background-color: rgba(0,0,0,0);
+        border: none;
+        cursor: pointer;
+    }
+
     .homeRouterView {
         margin-top: 10px;
     }
@@ -125,7 +118,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0px 25px;
+        padding: 0px 45px;
         box-sizing: border-box;
     }
 

@@ -9,6 +9,12 @@ const userStore = {
             state.admin = user.admin;
             window.sessionStorage.setItem("username",user.username);
             window.sessionStorage.setItem("admin",user.admin);
+        },
+        logout(state){
+            state.username = '';
+            state.admin=false
+            window.sessionStorage.setItem("username",'');
+            window.sessionStorage.setItem("admin",false);
         }
     },
     state:{

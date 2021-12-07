@@ -66,12 +66,12 @@ const router = new Router({
 });
 
 router.beforeEach((to,from,next)=>{
-    if(to.name == 'Login'){
+    if(to.name === 'Login'){
         next();
         return;
     }
     var name = window.sessionStorage.getItem("username");
-    if(name == ''){
+    if(name === ''){
         next({path:"/",query:{redirect:to.path}});
     }
     else{
