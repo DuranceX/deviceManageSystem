@@ -1,18 +1,18 @@
 //用户相关的内容
 const userStore = {
-    namespace:true,
+    namespaced:true,
     actions:{},
     mutations:{
-        login(state,id,username,logined,admin){
-            state.username = username;
-            state.userid = id;
-            state.logined = logined;
-            state.admin = admin;
+        login(state,user){
+            state.username = user.username;
+            state.userid ? user.id : '';
+            state.admin = user.admin;
+            window.sessionStorage.setItem("username",user.username);
+            window.sessionStorage.setItem("admin",user.admin);
         }
     },
     state:{
         username: '',
-        logined:false,
         userid:'',
         admin:false,
     }
