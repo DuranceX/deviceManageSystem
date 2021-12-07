@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.devmanagement.mapper.PurchaseMapper">
+    <insert id="addItem" parameterType="com.team.devmanagement.model.Purchase">
+        INSERT INTO purchase(did,uid,amount,price,pdate) VALUES (#{did},#{uid},#{amount},#{price},#{pdate})
+    </insert>
+    <delete id="deleteItemById" parameterType="int">
+        DELETE FROM purchase WHERE pid=#{pid}
+    </delete>
+    <update id="updateItem" parameterType="com.team.devmanagement.model.Purchase">
+        UPDATE purchase SET did=#{did},uid=#{uid},amount=#{amount},price=#{price},pdate=#{pdate}  where pid=#{pid}
+    </update>
+    <select id="getItemById" parameterType="int" resultType="com.team.devmanagement.model.Purchase">
+        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,pdate,price
+        FROM purchase,users,devices WHERE pid=#{pid} AND purchase.uid=users.uid AND purchase.did=devices.did
+    </select>
+    <select id="getItemsByUid" parameterType="int" resultType="com.team.devmanagement.model.Purchase">
+        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,pdate,price
+        FROM purchase,users,devices WHERE purchase.uid=#{uid} AND purchase.uid=users.uid AND purchase.did=devices.did
+    </select>
+    <select id="getAllItems" resultType="com.team.devmanagement.model.Purchase">
+        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,pdate,price
+        FROM purchase,users,devices WHERE purchase.uid=users.uid AND purchase.did=devices.did
+    </select>
+
+</mapper>
+
