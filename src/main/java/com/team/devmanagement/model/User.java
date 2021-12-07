@@ -3,18 +3,18 @@ package com.team.devmanagement.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class User {
-    private Integer id;
+    private Integer uid;
     private String username;
     @JsonIgnore
     private String password;
     private Boolean isAdmin;
 
-    public Integer getId() {
-        return id;
+    public Integer getUid() {
+        return uid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
     public String getUsername() {

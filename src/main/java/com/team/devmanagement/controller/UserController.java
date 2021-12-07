@@ -29,13 +29,13 @@ public class UserController {
             msg.setStatus(200);
             msg.setMsg("登陆成功");
             msg.setObj(user);
-            session.setAttribute("userid",user.getId());
+            session.setAttribute("userid",user.getUid());
         }
 
         return msg;
     }
 
-    @GetMapping("/updateUser")
+    @GetMapping("/update")
     public Msg update(@RequestBody User user,HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -50,15 +50,15 @@ public class UserController {
         }
         int result = userService.updateUser(user);
         if(result==0){
-            msg.setMsg("更改用户信息失败");
+            msg.setMsg("更改用户密码失败");
         }else{
             msg.setStatus(200);
-            msg.setMsg("更改用户信息成功");
+            msg.setMsg("更改用户密码成功");
         }
         return msg;
     }
 
-    @GetMapping("/deleteUserById")
+    @GetMapping("/delete")
     public Msg deleteUser(@RequestParam Integer id,HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");

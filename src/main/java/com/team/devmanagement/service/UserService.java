@@ -17,14 +17,14 @@ public class UserService {
     public int updateUser(User user){
         return userMapper.updateUser(user);
     }
-    public User getUserById(Integer id){
-        return userMapper.getUserById(id);
+    public User getUserById(Integer uid){
+        return userMapper.getUserById(uid);
     }
     public List<User> getAllUsers(){
         return userMapper.getAllUsers();
     }
-    public int deleteUserById(Integer id){
-        return userMapper.deleteUserById(id);
+    public int deleteUserById(Integer uid){
+        return userMapper.deleteUserById(uid);
     }
     public User query(String username,String password){
         return userMapper.query(username,password);
