@@ -99,7 +99,7 @@ export default {
 </script>
 
 
-<style lang="css" scoped>
+<style lang="css">
     
     html,body{
         height: 100%;

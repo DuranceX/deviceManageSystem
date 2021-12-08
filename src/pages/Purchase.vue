@@ -2,6 +2,7 @@
     <div>
         购买管理
         <el-table
+            border
             :row-class-name="tableRowDeepColor"
             :data="recordList"
             style="width: 100%"
@@ -60,6 +61,7 @@
                 <el-form-item label="序列号" :label-width="formLabelWidth">
                     <el-input disabled v-model="formData.duid"></el-input>
                 </el-form-item>
+                <!--等后端数据修正后改成对应的名字-->
                 <el-form-item label="购买人" :label-width="formLabelWidth">
                     <el-input disabled v-model="username"></el-input>
                 </el-form-item>
