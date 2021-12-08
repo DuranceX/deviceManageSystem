@@ -28,23 +28,23 @@
                                 <span>购买管理</span>
                             </el-menu-item>
                             <el-menu-item index="2" @click="switchRoute('Lease')">
-                                <i class="el-icon-menu"></i>
+                                <i class="el-icon-s-promotion"></i>
                                 <span>转借管理</span>
                             </el-menu-item>
                             <el-menu-item index="3" @click="switchRoute('Maintain')">
-                                <i class="el-icon-document"></i>
+                                <i class="el-icon-s-order"></i>
                                 <span>维修管理</span>
                             </el-menu-item>
                             <el-menu-item index="4" @click="switchRoute('Inventory')">
-                                <i class="el-icon-setting"></i>
+                                <i class="el-icon-s-home"></i>
                                 <span>库存管理</span>
                             </el-menu-item>
                             <el-menu-item index="5" @click="switchRoute('Scrap')">
-                                <i class="el-icon-setting"></i>
+                                <i class="el-icon-s-release"></i>
                                 <span>报废管理</span>
                             </el-menu-item>
                             <el-menu-item index="6" @click="switchRoute('UserManage')">
-                                <i class="el-icon-setting"></i>
+                                <i class="el-icon-user-solid"></i>
                                 <span>用户管理</span>
                             </el-menu-item>
                         </el-menu>
@@ -99,7 +99,8 @@ export default {
 </script>
 
 
-<style lang="css">
+<style lang="css" scoped>
+    
     html,body{
         height: 100%;
     }
@@ -163,8 +164,6 @@ export default {
     .el-main {
         background-color: #E9EEF3;
         color: #333;
-        text-align: center;
-        line-height: 160px;
     }
     
     .el-container{

@@ -72,7 +72,7 @@ router.beforeEach((to,from,next)=>{
         return;
     }
     var name = window.sessionStorage.getItem("username");
-    if(name === ''){
+    if(name === '' || !name){
         MessageBox.confirm("请先登录！",{
             callback:()=>{
                 next({path:"/",query:{redirect:to.path}});

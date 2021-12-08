@@ -20,6 +20,6 @@ module.exports={
                 //例如此处，如果为真，则为localhost:8080，若为假，则为"目标服务器“
                 //changeOrigin:false     
             }
-        }
+        },
     }
 }
