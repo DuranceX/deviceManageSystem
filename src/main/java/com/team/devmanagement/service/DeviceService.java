@@ -19,7 +19,7 @@ public class DeviceService {
     public int updateDevice(Device device){
         return deviceMapper.updateDevice(device);
     }
-    public User getUserById(Integer did){
+    public User getDeviceById(Integer did){
         return deviceMapper.getDeviceById(did);
     }
     public List<Device> getAllDevices(){

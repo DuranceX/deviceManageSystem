@@ -9,22 +9,32 @@ public class Purchase {
     Integer uid;
     String dname;
     Integer amount;
-        String buyer;
+    String buyer;
+    String duid;
     String pdate;
     Float price;
 
     public Purchase() {
     }
 
-    public Purchase(Integer pid, Integer did, Integer uid, String dname, Integer amount, String buyer, String pdate, Float price) {
+    public Purchase(Integer pid, Integer did, Integer uid, String dname, Integer amount, String buyer, String duid, String pdate, Float price) {
         this.pid = pid;
         this.did = did;
         this.uid = uid;
         this.dname = dname;
         this.amount = amount;
         this.buyer = buyer;
+        this.duid = duid;
         this.pdate = pdate;
         this.price = price;
+    }
+
+    public String getDuid() {
+        return duid;
+    }
+
+    public void setDuid(String duid) {
+        this.duid = duid;
     }
 
     public Integer getUid() {

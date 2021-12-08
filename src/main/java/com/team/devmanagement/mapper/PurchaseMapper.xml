@@ -13,15 +13,15 @@
         UPDATE purchase SET did=#{did},uid=#{uid},amount=#{amount},price=#{price},pdate=#{pdate}  where pid=#{pid}
     </update>
     <select id="getItemById" parameterType="int" resultType="com.team.devmanagement.model.Purchase">
-        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,pdate,price
+        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,devices.duid,pdate,price
         FROM purchase,users,devices WHERE pid=#{pid} AND purchase.uid=users.uid AND purchase.did=devices.did
     </select>
     <select id="getItemsByUid" parameterType="int" resultType="com.team.devmanagement.model.Purchase">
-        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,pdate,price
+        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,devices.duid,pdate,price
         FROM purchase,users,devices WHERE purchase.uid=#{uid} AND purchase.uid=users.uid AND purchase.did=devices.did
     </select>
     <select id="getAllItems" resultType="com.team.devmanagement.model.Purchase">
-        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,pdate,price
+        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,devices.duid,pdate,price
         FROM purchase,users,devices WHERE purchase.uid=users.uid AND purchase.did=devices.did
     </select>
 

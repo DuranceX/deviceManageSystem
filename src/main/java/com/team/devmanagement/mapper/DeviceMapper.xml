@@ -10,7 +10,7 @@
         DELETE FROM devices WHERE did=#{did}
     </delete>
     <update id="updateDevice" parameterType="com.team.devmanagement.model.Device">
-        UPDATE devices SET dname=#{dname} where did=#{did}
+        UPDATE devices SET dname=#{dname},dstatus=#{dstatus},duid=#{duid} where did=#{did}
     </update>
     <select id="getDeviceById" parameterType="int" resultType="com.team.devmanagement.model.Device">
         SELECT * FROM devices WHERE did=#{did}

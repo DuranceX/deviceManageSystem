@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.devmanagement.mapper.LeaseMapper">
+    <insert id="addItem" parameterType="com.team.devmanagement.model.Lease">
+        INSERT INTO lease(did,uid,leaseDate,backDate) VALUES (#{did},#{uid},#{leaseDate},#{backDate})
+    </insert>
+    <delete id="deleteItemById" parameterType="int">
+        DELETE FROM lease WHERE lid=#{lid}
+    </delete>
+    <update id="updateItem" parameterType="com.team.devmanagement.model.Lease">
+        UPDATE lease SET did=#{did},uid=#{uid},leaseDate=#{leaseDate},backDate=#{backDate} where lid=#{lid}
+    </update>
+    <select id="getItemById" parameterType="int" resultType="com.team.devmanagement.model.Lease">
+        SELECT lid,lease.uid,lease.did,devices.duid,devices.dname,users.username as user,leaseDate,backDate
+        FROM lease,users,devices WHERE pid=#{pid} AND purchase.uid=users.uid AND purchase.did=devices.did
+    </select>
+    <select id="getItemsByUid" parameterType="int" resultType="com.team.devmanagement.model.Lease">
+        SELECT lid,lease.uid,lease.did,devices.duid,devices.dname,users.username as user,leaseDate,backDate
+        FROM lease,users,devices WHERE lease.uid=#{uid} AND lease.uid=users.uid AND lease.did=devices.did
+    </select>
+    <select id="getAllItems" resultType="com.team.devmanagement.model.Lease">
+        SELECT lid,lease.uid,lease.did,devices.duid,devices.dname,users.username as user,leaseDate,backDate
+        FROM lease,users,devices WHERE lease.uid=users.uid AND lease.did=devices.did
+    </select>
+
+</mapper>
+

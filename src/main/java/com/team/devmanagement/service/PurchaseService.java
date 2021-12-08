@@ -29,7 +29,7 @@ public class PurchaseService {
     public List<Purchase> getAllItems(){
         return purchaseMapper.getAllItems();
     }
-    public int deletePurchaseById(Integer pid){
+    public int deleteItemById(Integer pid){
         return purchaseMapper.deleteItemById(pid);
     }
 //    public User query(String username,String password){
