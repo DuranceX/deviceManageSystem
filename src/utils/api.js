@@ -5,6 +5,8 @@ let base = '';
 axios.defaults.timeout = 5000;
 
 export const postRequest = (url, params) => {
+    console.log("qs",qs.stringify(params));
+    console.log("params",params);
     return axios({
         method: 'post',
         url: `${base}${url}`,
@@ -13,6 +15,7 @@ export const postRequest = (url, params) => {
         timeout:5000,
     })
 }
+
 export const putRequest = (url, params) => {
     return axios({
         method: 'put',

@@ -48,7 +48,9 @@ import {
   DatePicker,
   RadioGroup,
   CollapseItem,
-  Switch
+  Switch,
+  Skeleton,
+  SkeletonItem
 } from 'element-ui';
 
 Vue.use(Switch);
@@ -96,6 +98,8 @@ Vue.use(Icon);
 Vue.use(Select);
 Vue.use(Form);
 Vue.use(Tag);
+Vue.use(Skeleton);
+Vue.use(SkeletonItem)
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 
