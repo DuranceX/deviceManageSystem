@@ -129,7 +129,6 @@ export default {
                 this.loading = false;
                 for(var index in res.data.obj){
                     var r = res.data.obj[index];
-                    console.log(r);
                     this.recordList.unshift({
                         pid:r.pid,
                         dname:r.dname,
@@ -184,6 +183,16 @@ export default {
             this.formData.duid = this.$refs.addUid.$el.childNodes[1].value;
             this.dialogFormVisible = false;
             this.isAdd = false;
+
+            //生成多个序列号
+            let str = '';
+            for(var i=0;i<this.formData.amount;i++)
+            {
+                let s = nanoid(8).toUpperCase();
+                str = str + s + ",";
+            }
+            this.formData.duid = str;
+
             postRequest("/server/purchase/add",this.formData).then(res=>{
                 if(res.data.status === 200){
                     this.formData.duid = '';

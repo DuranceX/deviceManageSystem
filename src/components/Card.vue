@@ -3,13 +3,13 @@
         <el-skeleton :loading="loading" animated>
             <template slot="template">
                 <el-row>
-                    <el-col :span="12">
+                    <el-col :span="10">
                         <el-skeleton-item
                             variant="image"
                             style="width: 160px; height: 160px;margin:0px"
                         />
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="14">
                         <!--设备状态-->
                         <div style="padding:0 14px;margin: 16px 0 16px 10px; ">
                             <div class="my-skeleton-item">
@@ -70,7 +70,6 @@ export default {
     props:['data'],
     data(){
         return {
-            loading:false,
             currentDate: '2021-06-01'
         }
     },
@@ -83,7 +82,10 @@ export default {
             else if(this.data.dstatus === '已报废')
                 return 'info';
             return 'success';
-        }
+        },
+        loading(){
+            return this.$store.state.deviceStore.loading;
+        },
     }
 }
 </script>
