@@ -42,14 +42,13 @@
                 <el-input type="password" v-model="password" placeholder="密码"></el-input>
                 <el-button type="primary" @click="submit()" v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>
                 <el-button @click="register()">注册</el-button>
-                <el-button @click="test()">测试</el-button>
             </el-form>
         </div>
     </div>
 </template>
 
 <script>
-import {postRequest,getRequest} from '../utils/api'
+import {postRequest} from '../utils/api'
 import {nanoid} from 'nanoid'
 export default {
     name:"Login",
@@ -74,11 +73,13 @@ export default {
                     });
                 }
                 else if(res.data.status === 500){
+                    this.fullscreenLoading = false;
                     this.$alert("用户名或密码错误");
                     this.password = '';
                 }
             }).catch(() =>{
-                this.$alert("登录失败");
+                this.fullscreenLoading = false;
+                this.$alert("登录失败，请检查网络连接");
             });
         },
         //注册功能
@@ -87,25 +88,6 @@ export default {
                 path:"/Register",
             });
         },
-        test(){
-            this.fullscreenLoading = true;
-            getRequest("/server/login?username=admin&password=admin").then(res=>{
-               if(res.data.status === 200){
-                    this.fullscreenLoading = false;
-                    let data = res.data.obj;
-                    this.$store.commit('userStore/login',{id:data.id,username:data.username,admin:data.admin});
-                    this.$router.replace({
-                        path:"/Home",
-                    });
-                }
-                else if(res.data.status === 500){
-                    this.$alert("用户名或密码错误");
-                    this.password = '';
-                } 
-            }).catch(() =>{
-                this.$alert("登录失败");
-            });
-        }
     },
     mounted(){
         console.log(nanoid(8).toUpperCase());
@@ -162,7 +144,6 @@ export default {
         font-weight: 900;
         color: white;
         -webkit-font-smoothing: antialiased;
-        font-smoothing: antialiased;
         overflow: hidden;
     }
 
