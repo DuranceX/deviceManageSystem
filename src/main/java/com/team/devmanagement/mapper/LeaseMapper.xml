@@ -14,7 +14,7 @@
     </update>
     <select id="getItemById" parameterType="int" resultType="com.team.devmanagement.model.Lease">
         SELECT lid,lease.uid,lease.did,devices.duid,devices.dname,users.username as user,leaseDate,backDate
-        FROM lease,users,devices WHERE pid=#{pid} AND purchase.uid=users.uid AND purchase.did=devices.did
+        FROM lease,users,devices WHERE mid=#{mid} AND lease.uid=users.uid AND lease.did=devices.did
     </select>
     <select id="getItemsByUid" parameterType="int" resultType="com.team.devmanagement.model.Lease">
         SELECT lid,lease.uid,lease.did,devices.duid,devices.dname,users.username as user,leaseDate,backDate

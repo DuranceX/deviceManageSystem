@@ -19,8 +19,8 @@ public class LeaseService {
     public int updateItem(Lease item){
         return leaseMapper.updateItem(item);
     }
-    public Lease getItemById(Integer pid){
-        return leaseMapper.getItemById(pid);
+    public Lease getItemById(Integer lid){
+        return leaseMapper.getItemById(lid);
     }
     public List<Lease> getItemsByUid(Integer uid){
         return leaseMapper.getItemsByUid(uid);
@@ -28,8 +28,8 @@ public class LeaseService {
     public List<Lease> getAllItems(){
         return leaseMapper.getAllItems();
     }
-    public int deleteItemById(Integer pid){
-        return leaseMapper.deleteItemById(pid);
+    public int deleteItemById(Integer lid){
+        return leaseMapper.deleteItemById(lid);
     }
 //    public User query(String username,String password){
 //        return userMapper.query(username,password);

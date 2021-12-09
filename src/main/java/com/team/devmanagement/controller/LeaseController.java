@@ -30,7 +30,7 @@ public class LeaseController {
         Integer curUid = Integer.parseInt(uid.toString());
         User curUser = userService.getUserById(curUid);
         if(!item.getUid().equals(curUid)){
-            msg.setMsg("不可添加其他用户的购买记录！");
+            msg.setMsg("不可添加其他用户的租赁记录！");
             return msg;
         }
         int result = leaseService.addItem(item);
@@ -55,7 +55,7 @@ public class LeaseController {
         Integer curUid = Integer.parseInt(uid.toString());
         Lease item = leaseService.getItemById(id);
         if(!item.getUid().equals(curUid)){
-            msg.setMsg("不可删除其他用户的购买记录！");
+            msg.setMsg("不可删除其他用户的租赁记录！");
             return msg;
         }
         int result = leaseService.deleteItemById(id);
@@ -79,15 +79,15 @@ public class LeaseController {
         }
         Integer curUid = Integer.parseInt(uid.toString());
         if(!item.getUid().equals(curUid)){
-            msg.setMsg("不可更改其他用户的购买记录！");
+            msg.setMsg("不可更改其他用户的租赁记录！");
             return msg;
         }
         int result = leaseService.updateItem(item);
         if(result>0){
             msg.setStatus(200);
-            msg.setMsg("删除成功");
+            msg.setMsg("更新成功");
         }else{
-            msg.setMsg("删除失败，未知错误");
+            msg.setMsg("更新失败，未知错误");
         }
         return msg;
 

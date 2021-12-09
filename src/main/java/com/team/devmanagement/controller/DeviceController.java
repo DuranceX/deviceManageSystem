@@ -1,24 +1,27 @@
 package com.team.devmanagement.controller;
 
+import com.team.devmanagement.model.Device;
 import com.team.devmanagement.model.Msg;
-import com.team.devmanagement.model.Purchase;
 import com.team.devmanagement.model.User;
-import com.team.devmanagement.service.PurchaseService;
+import com.team.devmanagement.service.DeviceService;
 import com.team.devmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
 @RestController
-public class PurchaseController {
+public class DeviceController {
     @Autowired
-    PurchaseService purchaseService;
+    DeviceService deviceService;
     @Autowired
     UserService userService;
 
-    @PostMapping("/purchase/add")
-    public Msg addItem(@RequestBody Purchase item, HttpSession session){
+    @PostMapping("/device/add")
+    public Msg addItem(@RequestBody Device item, HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
         if(uid==null) {
@@ -27,11 +30,11 @@ public class PurchaseController {
         }
         Integer curUid = Integer.parseInt(uid.toString());
         User curUser = userService.getUserById(curUid);
-        if(!item.getUid().equals(curUid)){
-            msg.setMsg("不可添加其他用户的购买记录！");
+        if(!curUser.getAdmin()){
+            msg.setMsg("普通用户不可直接增加库存记录！请联系管理员！");
             return msg;
         }
-        int result = purchaseService.addItem(item);
+        int result = deviceService.addDevice(item);
         //如果devices表里面没有该设备，则新增
 
         if(result>0){
@@ -42,7 +45,7 @@ public class PurchaseController {
         }
         return msg;
     }
-    @PostMapping("/purchase/delete")
+    @PostMapping("/device/delete")
     public Msg deleteItem(@RequestParam Integer id, HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -51,12 +54,12 @@ public class PurchaseController {
             return msg;
         }
         Integer curUid = Integer.parseInt(uid.toString());
-        Purchase item = purchaseService.getItemById(id);
-        if(!item.getUid().equals(curUid)){
-            msg.setMsg("不可删除其他用户的购买记录！");
+        User curUser = userService.getUserById(curUid);
+        if(!curUser.getAdmin()){
+            msg.setMsg("普通用户不可删除库存记录！请联系管理员！");
             return msg;
         }
-        int result = purchaseService.deleteItemById(id);
+        int result = deviceService.deleteDeviceById(id);
         if(result>0){
             msg.setStatus(200);
             msg.setMsg("删除成功");
@@ -67,8 +70,8 @@ public class PurchaseController {
 
     }
 
-    @GetMapping("/purchase/update")
-    public Msg update(@RequestBody Purchase item, HttpSession session){
+    @PostMapping("/device/update")
+    public Msg update(@RequestBody Device item, HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
         if(uid==null) {
@@ -76,11 +79,12 @@ public class PurchaseController {
             return msg;
         }
         Integer curUid = Integer.parseInt(uid.toString());
-        if(!item.getUid().equals(curUid)){
-            msg.setMsg("不可更改其他用户的购买记录！");
+        User curUser = userService.getUserById(curUid);
+        if(!curUser.getAdmin()){
+            msg.setMsg("普通用户不可更改库存记录！请联系管理员");
             return msg;
         }
-        int result = purchaseService.updateItem(item);
+        int result = deviceService.updateDevice(item);
         if(result>0){
             msg.setStatus(200);
             msg.setMsg("更新成功");
@@ -91,7 +95,7 @@ public class PurchaseController {
 
     }
 
-    @PostMapping("/purchase/getItems")
+    @PostMapping("/device/getItems")
     public Msg getItems(HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -99,15 +103,7 @@ public class PurchaseController {
             msg.setMsg("请先登陆");
             return msg;
         }
-        Integer curUid = Integer.parseInt(uid.toString());
-        User curUser = userService.getUserById(curUid);
-        if(!curUser.getAdmin()){
-            msg.setObj(purchaseService.getItemsByUid(curUid));
-            msg.setMsg("返回数据成功");
-            msg.setStatus(200);
-            return msg;
-        }
-        msg.setObj(purchaseService.getAllItems());
+        msg.setObj(deviceService.getAllDevices());
         msg.setMsg("返回数据成功");
         msg.setStatus(200);
         return msg;

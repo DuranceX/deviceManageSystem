@@ -8,9 +8,9 @@ import java.util.List;
 @Mapper
 public interface LeaseMapper {
     int addItem(Lease lease);
-    int deleteItemById(Integer pid);
+    int deleteItemById(Integer lid);
     int updateItem(Lease lease);
-    Lease getItemById(Integer pid);
+    Lease getItemById(Integer lid);
     List<Lease> getItemsByUid(Integer uid);
     List<Lease> getAllItems();
 }
