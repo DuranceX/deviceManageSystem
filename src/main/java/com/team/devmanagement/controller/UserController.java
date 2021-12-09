@@ -16,7 +16,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
-    @GetMapping ("/login")
+    @PostMapping ("/login")
     public Msg login(@RequestParam(value = "username") String username,@RequestParam(value="password") String password,
                      HttpSession session){
         Msg msg = new Msg();
@@ -35,7 +35,7 @@ public class UserController {
         return msg;
     }
 
-    @GetMapping("/update")
+    @PostMapping("/update")
     public Msg update(@RequestBody User user,HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -58,7 +58,7 @@ public class UserController {
         return msg;
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public Msg deleteUser(@RequestParam Integer id,HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -110,7 +110,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public Msg logout(HttpSession session){
         Msg msg = new Msg();
         session.removeAttribute("userid");
@@ -118,7 +118,7 @@ public class UserController {
         msg.setMsg("注销成功");
         return msg;
     }
-    @GetMapping("/test")
+    @PostMapping("/test")
     public List<User> test(){
         return userService.getAllUsers();
     }

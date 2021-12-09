@@ -6,10 +6,7 @@ import com.team.devmanagement.model.User;
 import com.team.devmanagement.service.PurchaseService;
 import com.team.devmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +17,7 @@ public class PurchaseController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/purchase/add")
+    @PostMapping("/purchase/add")
     public Msg addItem(@RequestBody Purchase item, HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -45,7 +42,7 @@ public class PurchaseController {
         }
         return msg;
     }
-    @GetMapping("/purchase/delete")
+    @PostMapping("/purchase/delete")
     public Msg deleteItem(@RequestParam Integer id, HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -94,7 +91,7 @@ public class PurchaseController {
 
     }
 
-    @GetMapping("/purchase/getItems")
+    @PostMapping("/purchase/getItems")
     public Msg getItems(HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");

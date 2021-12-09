@@ -8,10 +8,7 @@ import com.team.devmanagement.service.LeaseService;
 import com.team.devmanagement.service.PurchaseService;
 import com.team.devmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +19,7 @@ public class LeaseController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/lease/add")
+    @PostMapping("/lease/add")
     public Msg addItem(@RequestBody Lease item, HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -47,7 +44,7 @@ public class LeaseController {
         }
         return msg;
     }
-    @GetMapping("/lease/delete")
+    @PostMapping("/lease/delete")
     public Msg deleteItem(@RequestParam Integer id, HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -72,7 +69,7 @@ public class LeaseController {
 
     }
 
-    @GetMapping("/lease/update")
+    @PostMapping("/lease/update")
     public Msg update(@RequestBody Lease item, HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
@@ -96,7 +93,7 @@ public class LeaseController {
 
     }
 
-    @GetMapping("/lease/getItems")
+    @PostMapping("/lease/getItems")
     public Msg getItems(HttpSession session){
         Msg msg = new Msg();
         Object uid = session.getAttribute("userid");
