@@ -5,15 +5,17 @@ const userStore = {
     mutations:{
         login(state,user){
             state.username = user.username;
-            state.userid ? user.id : '';
+            state.userid = user.id;
             state.admin = user.admin;
             window.sessionStorage.setItem("username",user.username);
+            window.sessionStorage.setItem("userid",user.id);
             window.sessionStorage.setItem("admin",user.admin);
         },
         logout(state){
             state.username = '';
             state.admin=false
             window.sessionStorage.setItem("username",'');
+            window.sessionStorage.setItem("userid",'');
             window.sessionStorage.setItem("admin",false);
         }
     },

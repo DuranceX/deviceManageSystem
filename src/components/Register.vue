@@ -73,7 +73,7 @@ export default {
                     this.$alert("注册成功",{
                         callback:()=>{
                             this.$router.replace({
-                                path:"/Home",
+                                path:"/",
                             });
                         }
                     });

@@ -62,10 +62,14 @@
 
 export default {
     name:"Home",
-    data(){
-        return{
-            username:'',
-            admin:false,
+    computed:{
+        username(){
+            return window.sessionStorage.getItem('username');
+        },
+        admin(){
+            if(window.sessionStorage.getItem('admin'))
+                return window.sessionStorage.getItem('admin');
+            return false;
         }
     },
     methods:{
@@ -91,10 +95,6 @@ export default {
             }
         }
     },
-    mounted(){
-        this.username = window.sessionStorage.getItem('username');
-        this.admin = window.sessionStorage.getItem('admin');
-    }
 }
 </script>
 

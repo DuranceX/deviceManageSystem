@@ -67,7 +67,7 @@ export default {
                 if(res.data.status === 200){
                     this.fullscreenLoading = false;
                     let data = res.data.obj;
-                    this.$store.commit('userStore/login',{id:data.id,username:data.username,admin:data.admin});
+                    this.$store.commit('userStore/login',{id:data.uid,username:data.username,admin:data.admin});
                     this.$router.replace({
                         path:"/Home",
                     });
