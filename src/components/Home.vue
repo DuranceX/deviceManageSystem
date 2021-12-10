@@ -4,7 +4,7 @@
             <el-header>
                 <button class="title" @click="backToHome()">设备管理系统</button>
                 <div>
-                    <el-button icon="el-icon-bell" type="text" style="margin-right: 8px;color:white" size="normal"></el-button>
+                    <el-button icon="el-icon-user" type="text" style="margin-right: 8px;color:white" size="normal"></el-button>
                     <el-dropdown @command="handleCommand">
                         <span class="el-dropdown-link">
                             {{username}}
@@ -68,7 +68,7 @@ export default {
         },
         admin(){
             if(window.sessionStorage.getItem('admin'))
-                return window.sessionStorage.getItem('admin');
+                return true;
             return false;
         }
     },
@@ -88,7 +88,6 @@ export default {
                 this.$router.push({path:'/Home'});
         },
         handleCommand(command) {
-            console.log(command);
             if(command === 'logout'){
                 this.$store.commit('userStore/logout');
                 this.$router.replace({path:"/"});
@@ -193,5 +192,6 @@ export default {
     .el-dropdown-link {
         display: flex;
         align-items: center;
+        cursor: pointer;
     }
 </style>

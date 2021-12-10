@@ -47,7 +47,7 @@
             </el-table-column>
         </el-table>
 
-        <el-dialog :title="isAdd?'添加维修信息':'修改维修信息'" :visible.sync="dialogFormVisible">
+        <el-dialog :title="isAdd?'添加报废记录':'修改报废记录'" :visible.sync="dialogFormVisible">
             <el-form :model="formData">
                 <el-form-item label="设备名" :label-width="formLabelWidth">
                     <el-select v-model="formData.dname" placeholder="请选择">
