@@ -81,7 +81,7 @@
                 <el-form-item label="维修价格" :label-width="formLabelWidth">
                     <el-input v-model="formData.price"></el-input>
                 </el-form-item>
-                <el-form-item label="购买日期" :label-width="formLabelWidth">
+                <el-form-item label="维修日期" :label-width="formLabelWidth">
                     <el-date-picker
                         v-model="formData.mDate"
                         type="date"

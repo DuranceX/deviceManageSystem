@@ -138,7 +138,6 @@ export default {
         font-weight: 900;
         color: white;
         -webkit-font-smoothing: antialiased;
-        font-smoothing: antialiased;
         overflow: hidden;
     }
 

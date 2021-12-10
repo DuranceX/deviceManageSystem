@@ -10,21 +10,21 @@
                         />
                     </el-col>
                     <el-col :span="14">
-                        <!--设备状态-->
+                        <!--用户ID-->
                         <div style="padding:0 14px;margin: 16px 0 16px 10px; ">
                             <div class="my-skeleton-item">
                                 <el-skeleton-item variant="h1" style="margin-right: 16px;width: 40%;" />
                                 <el-skeleton-item variant="h1" />
                             </div>
                         </div>
-                        <!--设备名-->
+                        <!--用户名-->
                         <div style="padding:0 14px;margin: 32px 0 32px 10px;">
                             <div class="my-skeleton-item">
                                 <el-skeleton-item variant="h1" style="margin-right: 16px;width: 40%;" />
                                 <el-skeleton-item variant="h1" />
                             </div>
                         </div>
-                        <!--设备状态-->
+                        <!--用户权限-->
                         <div style="padding:0 14px;margin: 16px 0 16px 10px;">
                             <div class="my-skeleton-item">
                                 <el-skeleton-item variant="h1" style="margin-right: 16px;width: 40%;" />
@@ -38,23 +38,23 @@
                 <el-row>
                     <el-col :span="10">
                         <img
-                            src="../assets/default.png"
+                            src="../assets/user.png"
                             class="image"
                         />
                     </el-col>
                     <el-col :span="14">
                         <div style="padding:0 14px;margin: 16px 0 16px 10px;">
                             <div class="my-skeleton-item">
-                                <h1 style="margin-right: 16px;width: 50%;">设备名称</h1>
-                                <span>{{data.dname}}</span>
+                                <h1 style="margin-right: 16px;width: 50%;">用户ID</h1>
+                                <span>{{data.uid}}</span>
                             </div>
                             <div class="my-skeleton-item">
-                                <h1 style="margin-right: 16px;width: 50%;">设备序列号</h1>
-                                <span>{{ data.duid }}</span>
+                                <h1 style="margin-right: 16px;width: 50%;">用户名</h1>
+                                <span>{{ data.username }}</span>
                             </div>
                             <div class="my-skeleton-item">
-                                <h1 style="margin-right: 16px;width: 50%;">设备状态</h1>
-                                <el-tag :type="tagType"> {{data.dstatus}}</el-tag>
+                                <h1 style="margin-right: 16px;width: 50%;">管理员权限</h1>
+                                <el-switch :disabled="!admin" v-model="data.admin" @click="changeAuth()"></el-switch>
                             </div>
                         </div>
                     </el-col>
@@ -65,22 +65,26 @@
 </template>
 
 <script>
+//import { postRequest } from '../utils/api';
 export default {
-    name:"Card",
+    name:"UserCard",
     props:['data'],
     computed:{
-        tagType(){
-            if(this.data.dstatus === '维修中')
-                return 'danger';
-            else if(this.data.dstatus === '转借中')
-                return 'warning';
-            else if(this.data.dstatus === '已报废')
-                return 'info';
-            return 'success';
-        },
         loading(){
             return this.$store.state.deviceStore.loading;
         },
+        admin(){
+            if(window.sessionStorage.getItem('admin') === 'true')
+                return true;
+            return false;
+        }
+    },
+    methods:{
+        changeAuth(){
+            // postRequest('/server/update',this.data).then(res=>{
+            //     if(res.data.)
+            // })
+        }
     }
 }
 </script>

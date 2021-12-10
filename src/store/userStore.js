@@ -17,12 +17,16 @@ const userStore = {
             window.sessionStorage.setItem("username",'');
             window.sessionStorage.setItem("userid",'');
             window.sessionStorage.setItem("admin",false);
-        }
+        },
+        changeStatus(state,value){
+            state.loading = value;
+        },
     },
     state:{
         username: '',
         userid:'',
         admin:false,
+        loading:true,
     }
 }
 
