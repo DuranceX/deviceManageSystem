@@ -102,6 +102,8 @@ Vue.use(Skeleton);
 Vue.use(SkeletonItem)
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$msgbox = MessageBox
 
 Vue.config.productionTip = false;
 

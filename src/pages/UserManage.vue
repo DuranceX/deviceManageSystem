@@ -22,7 +22,7 @@ export default {
     },
     mounted(){
         this.$nextTick(()=>{
-            postRequest("/server/test").then(res=>{
+            postRequest("/server/getUsers").then(res=>{
                 this.recordList = [];
                 this.$store.commit('deviceStore/changeStatus',false);
                 console.log("user",res.data);

@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {postRequest} from '../utils/api'
+import {paramsPostRequest} from '../utils/api'
 export default {
     name:"Register",
     data(){
@@ -66,7 +66,7 @@ export default {
         },
         //注册功能
         register(){
-            postRequest("/server/reg",{username:this.name,password:this.password}).then(res=>{
+            paramsPostRequest("/server/reg",{username:this.name,password:this.password}).then(res=>{
                 console.log(res);
                 if(res.data.status === 200){
                     this.$store.commit('userStore/login',{username:this.name,admin:this.admin});

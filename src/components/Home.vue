@@ -10,8 +10,8 @@
                             {{username}}
                         </span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
-                            <el-dropdown-item command="setting">设置</el-dropdown-item>
+                            <el-dropdown-item command="userinfo">修改用户名</el-dropdown-item>
+                            <el-dropdown-item command="changePsw">修改密码</el-dropdown-item>
                             <el-dropdown-item command="logout" divided>注销登录</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -21,7 +21,7 @@
                 <el-aside width="200px">
                     <el-col>
                         <el-menu
-                        default-active="1"
+                        default-active="-1"
                         class="el-menu-vertical-demo">
                             <el-menu-item index="1" @click="switchRoute('Purchase')">
                                 <i class="el-icon-menu"></i>
@@ -55,13 +55,36 @@
                 </el-main>
             </el-container>
         </el-container>
+
+        <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%">
+                请输入新密码<br />
+                <el-input type="password" v-model="newPsw"></el-input>
+                请确认新密码<br />
+                <el-input type="password" v-model="reNewPsw"></el-input><br />
+                <span v-show="!(newPsw === reNewPsw)" style="color:red">两次密码输入不一致</span>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" :disabled="!(newPsw === reNewPsw)" @click="changePsw()">确 定</el-button>
+                </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+import { postRequest,paramsPostRequest } from '../utils/api';
 
 export default {
     name:"Home",
+    data(){
+        return {
+            dialogVisible:false,
+            newPsw:'',
+            reNewPsw:''
+        }
+    },
     computed:{
         username(){
             return window.sessionStorage.getItem('username');
@@ -77,9 +100,6 @@ export default {
             if(this.$route.name !== name){
                 this.$router.push({
                     name: name,
-                    query:{
-                        admin:this.$store.state.admin,
-                    }
                 })
             }
         },
@@ -92,6 +112,55 @@ export default {
                 this.$store.commit('userStore/logout');
                 this.$router.replace({path:"/"});
             }
+            else if(command === 'userinfo'){
+                this.$prompt('请输入新用户名','提示',{
+                    confirmButtonText:'确定',
+                    cancelButtonText:'取消',
+                }).then(({value})=>{
+                    let data = {};
+                    data.uid = window.sessionStorage.getItem("userid");
+                    data.username = value;
+                    data.admin = window.sessionStorage.getItem("admin");
+                    console.log(data);
+                    postRequest('/server/update',data).then(res=>{
+                        if(res.data.status === 200)
+                        {
+                            window.sessionStorage.setItem("username",value);
+                            this.$alert("修改成功",'',{
+                                callback:()=>{
+                                    location.reload();
+                                }
+                            });
+                            
+                            
+                        }
+                    }).catch(()=>{
+                        this.$alert("修改失败");
+                    })
+                })
+            }
+            else if(command === 'changePsw'){
+                this.dialogVisible = true;
+            }
+        },
+        changePsw(){
+            paramsPostRequest('/server/updateUserPwd',{username:this.username,password:this.newPsw}).then(res=>{
+                if(res.data.status === 200){
+                    this.$store.commit('userStore/logout');
+                    this.$alert("密码修改成功，请重新登录",'',{
+                        callback:()=>{
+                            this.$router.replace({path:"/"});
+                        }
+                    });
+
+                }
+                else{
+                    this.$alert("密码修改失败");
+                }
+            }).catch((err)=>{
+                console.log(err);
+                this.$alert("服务器响应超时，请检查网络连接");
+            })
         }
     },
 }

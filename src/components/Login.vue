@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {postRequest} from '../utils/api'
+import {paramsPostRequest} from '../utils/api'
 import {nanoid} from 'nanoid'
 export default {
     name:"Login",
@@ -63,7 +63,7 @@ export default {
         //登录功能
         submit(){
             this.fullscreenLoading = true;
-            postRequest("/server/login",{username:this.name,password:this.password}).then(res => {
+            paramsPostRequest("/server/login",{username:this.name,password:this.password}).then(res => {
                 if(res.data.status === 200){
                     this.fullscreenLoading = false;
                     let data = res.data.obj;

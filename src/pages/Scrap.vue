@@ -77,6 +77,7 @@
                     <el-date-picker
                         v-model="formData.sDate"
                         type="date"
+                        value-format="yyyy-MM-dd"
                         placeholder="选择日期">
                         </el-date-picker>
                 </el-form-item>
@@ -178,14 +179,14 @@ export default {
             // 接下来调用更新操作
             postRequest("/server/scrap/update",this.formData).then(res=>{
                 if(res.data.status === 200){
-                    this.$$alert("数据更新成功");
+                    this.$alert("数据更新成功");
                     this.initData();
                 }
                 else if(res.data.status === 500){
                     this.$alert("数据更新错误");
                 }
             }).catch(() =>{
-                    this.$alert("数据更新失败");
+                this.$alert("数据更新失败");
             });
             //调用初始化操作重新读取设备数据
             this.initData();
@@ -195,7 +196,7 @@ export default {
         addRecord(){
             this.formData = {};
             this.dialogFormVisible = true;
-            this.formData = {did:'',duid:'',user:this.user,price:'',mDate:'',uid:this.uid};
+            this.formData = {did:'',duid:'',user:this.user,sDate:'',uid:this.uid};
             this.isAdd = true;
         },
         //点击表单中的确定按钮，添加数据

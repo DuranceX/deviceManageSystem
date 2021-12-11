@@ -85,6 +85,7 @@
                     <el-date-picker
                         v-model="formData.mDate"
                         type="date"
+                        value-format="yyyy-MM-dd"
                         placeholder="选择日期">
                         </el-date-picker>
                 </el-form-item>
@@ -187,7 +188,7 @@ export default {
             // 接下来调用更新操作
             postRequest("/server/maintain/update",this.formData).then(res=>{
                 if(res.data.status === 200){
-                    this.$$alert("数据更新成功");
+                    this.$alert("数据更新成功");
                     this.initData();
                 }
                 else if(res.data.status === 500){
@@ -204,7 +205,7 @@ export default {
         addRecord(){
             this.formData = {};
             this.dialogFormVisible = true;
-            this.formData = {did:'',duid:'',user:this.user,price:'',mDate:'',uid:this.uid};
+            this.formData = {did:'',duid:'',dname:'',user:this.user,price:'',mDate:'',uid:this.uid};
             this.isAdd = true;
         },
         //点击表单中的确定按钮，添加数据
