@@ -54,6 +54,7 @@
                         <el-option
                             v-for="r in $store.state.deviceStore.deviceList"
                             :key="r.did"
+                            v-show="r.dstatus === '运行中'"
                             :label="r.dname"
                             :value="r.dname">
                         </el-option>
@@ -65,7 +66,7 @@
                             v-for="r in $store.state.deviceStore.deviceList"
                             :key="r.did"
                             :label="r.duid"
-                            v-show="r.dname === formData.dname"
+                            v-show="r.dname === formData.dname && r.dstatus === '运行中'"
                             :value="r.duid">
                         </el-option>
                     </el-select>
@@ -91,7 +92,7 @@
 </template>
 
 <script>
-import {postRequest} from '../utils/api'
+import {postRequest,paramsPostRequest} from '../utils/api'
 export default {
     name:'Scrap',
     data(){
@@ -159,15 +160,16 @@ export default {
         deleteRow(row){
             console.log(row);
             //执行删除数据操作
-            postRequest('/server/scrap/deleteItem',row.mid).then(res=>{
+            paramsPostRequest('/server/scrap/delete',{id:row.sid}).then(res=>{
                 if(res.data.status === 200){
-                    this.$$alert("数据删除成功");
+                    this.$alert("数据删除成功");
                     this.initData();
                 }
                 else if(res.data.status === 500){
                     this.$alert(res.data.msg);
                 }
-            }).catch(() =>{
+            }).catch((err) =>{
+                console.log(err);
                     this.$alert("数据更新失败");
             });
             //调用初始化操作重新读取设备数据
@@ -189,7 +191,6 @@ export default {
                 this.$alert("数据更新失败");
             });
             //调用初始化操作重新读取设备数据
-            this.initData();
         },
 
         //点击新增按钮，初始化表单数据

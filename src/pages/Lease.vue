@@ -59,6 +59,7 @@
                         <el-option
                             v-for="r in $store.state.deviceStore.deviceList"
                             :key="r.did"
+                            v-show="r.dstatus === '运行中'"
                             :label="r.dname"
                             :value="r.dname">
                         </el-option>
@@ -70,7 +71,7 @@
                             v-for="r in $store.state.deviceStore.deviceList"
                             :key="r.did"
                             :label="r.duid"
-                            v-show="r.dname === formData.dname"
+                            v-show="r.dname === formData.dname && r.dstatus === '运行中'"
                             :value="r.duid">
                         </el-option>
                     </el-select>
@@ -104,7 +105,7 @@
 </template>
 
 <script>
-import {postRequest} from '../utils/api'
+import {postRequest,paramsPostRequest} from '../utils/api'
 export default {
     name:'Lease',
     data(){
@@ -144,6 +145,7 @@ export default {
             }
         },
         initData(){
+            this.recordList = [];
             postRequest('/server/lease/getItems').then(res=>{
                 this.loading = false;
                 for(var index in res.data.obj){
@@ -167,15 +169,28 @@ export default {
         editRow(row){
             this.dialogFormVisible = true;
             this.formData = row;
+            this.isAdd = false;
         },
         deleteRow(row){
-            console.log(row);
-            //执行删除数据操作
-            //调用初始化操作重新读取设备数据
+            this.$confirm('此操作将删除该转借记录，确认删除吗','提示',{
+                type:'warning'
+            }).then(()=>{
+                paramsPostRequest('/server/lease/delete',{id:row.lid}).then(res=>{
+                    if(res.data.status === 200){
+                        this.$alert("删除成功",'',{
+                            callback:()=>{
+                                this.initData();
+                            }
+                        });
+                    }
+                }).catch((err)=>{
+                    console.log(err);
+                    this.$alert("删除失败");
+                })
+            })
         },
         updateData(){
             this.dialogFormVisible = false;
-            console.log("newData",this.formData);
             //接下来调用更新操作
             postRequest("/server/lease/update",this.formData).then(res=>{
                 if(res.data.status === 200){
@@ -204,7 +219,8 @@ export default {
 
             postRequest("/server/lease/add",this.formData).then(res=>{
                 if(res.data.status === 200){
-                    this.formData.duid = '';
+                    this.$alert("添加记录成功");
+                    this.dialogFormVisible = false;
                     this.initData();
                 }
                 else if(res.data.status === 500){

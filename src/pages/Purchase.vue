@@ -57,7 +57,7 @@
             </el-table-column>
         </el-table>
 
-        <el-dialog title="修改购买信息" :visible.sync="dialogFormVisible">
+        <el-dialog :title="isAdd ? '添加购买信息':'修改购买信息'" :visible.sync="dialogFormVisible">
             <el-form :model="formData">
                 <el-form-item label="设备名" :label-width="formLabelWidth">
                     <el-input autocomplete="on" v-model="formData.dname"></el-input>
@@ -94,7 +94,7 @@
 
 <script>
 import { nanoid } from 'nanoid';
-import {postRequest} from '../utils/api'
+import {postRequest,paramsPostRequest} from '../utils/api'
 export default {
     name:'Purchase',
     data(){
@@ -134,6 +134,7 @@ export default {
             }
         },
         initData(){
+            this.recordList = [];
             postRequest('/server/purchase/getItems').then(res=>{
                 this.loading = false;
                 for(var index in res.data.obj){
@@ -156,15 +157,28 @@ export default {
         editRow(row){
             this.dialogFormVisible = true;
             this.formData = row;
+            this.isAdd = false;
         },
         deleteRow(row){
-            console.log(row);
-            //执行删除数据操作
-            //调用初始化操作重新读取设备数据
+            this.$confirm('此操作将一同删除设备，确认删除吗','提示',{
+                type:'warning'
+            }).then(()=>{
+                paramsPostRequest('/server/purchase/delete',{id:row.pid}).then(res=>{
+                    if(res.data.status === 200){
+                        this.$alert("删除成功",'',{
+                            callback:()=>{
+                                this.initData();
+                            }
+                        });
+                        
+                    }
+                }).catch(()=>{
+                    this.$alert("删除失败");
+                })
+            })
         },
         updateData(){
             this.dialogFormVisible = false;
-            console.log("newData",this.formData);
             //接下来调用更新操作
             postRequest("/server/purchase/update",this.formData).then(res=>{
                 if(res.data.status === 200){
@@ -175,7 +189,7 @@ export default {
                     this.$alert("数据更新错误");
                 }
             }).catch(() =>{
-                    this.$alert("数据更新失败");
+                this.$alert("数据更新失败");
             });
             //调用初始化操作重新读取设备数据
         },
@@ -200,8 +214,6 @@ export default {
             }
             str = str.substring(0,str.length-1);
             this.formData.duid = str;
-
-            console.log("addData",this.formData);
 
             postRequest("/server/purchase/add",this.formData).then(res=>{
                 if(res.data.status === 200){

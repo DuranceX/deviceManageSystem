@@ -54,7 +54,7 @@
                             </div>
                             <div class="my-skeleton-item">
                                 <h1 style="margin-right: 16px;width: 50%;">管理员权限</h1>
-                                <el-switch :disabled="!admin" v-model="data.admin" @click="changeAuth()"></el-switch>
+                                <el-switch :disabled="!admin" v-model="data.admin" @change="changeAuth()"></el-switch>
                             </div>
                         </div>
                     </el-col>
@@ -65,7 +65,8 @@
 </template>
 
 <script>
-//import { postRequest } from '../utils/api';
+import { postRequest } from '../utils/api';
+
 export default {
     name:"UserCard",
     props:['data'],
@@ -81,9 +82,19 @@ export default {
     },
     methods:{
         changeAuth(){
-            // postRequest('/server/update',this.data).then(res=>{
-            //     if(res.data.)
-            // })
+            this.$confirm('确认修改该用户权限吗','提示',{
+                type:'warning'
+            }).then(()=>{
+                postRequest('/server/update',this.data).then(res=>{
+                    if(res.data.status === 200){
+                        this.$alert("修改权限成功");
+                    }
+                }).catch(()=>{
+                    this.$alert("修改权限失败");
+                })
+            }).catch(()=>{
+                this.data.admin = !this.data.admin;
+            })
         }
     }
 }
