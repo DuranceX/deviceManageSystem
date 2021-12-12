@@ -23,6 +23,9 @@ public class UserService {
     public List<User> getAllUsers(){
         return userMapper.getAllUsers();
     }
+    public int updateUserPwd(String password,String username){
+        return userMapper.updateUserPwd(password,username);
+    }
     public int deleteUserById(Integer uid){
         return userMapper.deleteUserById(uid);
     }

@@ -1,7 +1,7 @@
 package com.team.devmanagement.model;
 
 public class Lease {
-    Integer pid;
+    Integer lid;
     Integer did;
     Integer uid;
     String dname;
@@ -13,8 +13,8 @@ public class Lease {
     public Lease() {
     }
 
-    public Lease(Integer pid, Integer did, Integer uid, String dname, String duid, String user, String leaseDate, String backDate) {
-        this.pid = pid;
+    public Lease(Integer lid, Integer did, Integer uid, String dname, String duid, String user, String leaseDate, String backDate) {
+        this.lid = lid;
         this.did = did;
         this.uid = uid;
         this.dname = dname;
@@ -24,12 +24,12 @@ public class Lease {
         this.backDate = backDate;
     }
 
-    public Integer getPid() {
-        return pid;
+    public Integer getLid() {
+        return lid;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setLid(Integer lid) {
+        this.lid = lid;
     }
 
     public Integer getDid() {

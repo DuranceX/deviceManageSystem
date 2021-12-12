@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team.devmanagement.mapper.DeviceMapper">
     <insert id="addDevice" parameterType="com.team.devmanagement.model.Device">
-        INSERT INTO devices(dname) VALUES (#{dname})
+        INSERT INTO devices(dname,dstatus,duid) VALUES (#{dname},#{dstatus},#{duid})
     </insert>
     <delete id="deleteDeviceById" parameterType="int">
         DELETE FROM devices WHERE did=#{did}
@@ -15,6 +15,16 @@
     <select id="getDeviceById" parameterType="int" resultType="com.team.devmanagement.model.Device">
         SELECT * FROM devices WHERE did=#{did}
     </select>
+    <select id="getDeviceByDuid" parameterType="String" resultType="com.team.devmanagement.model.Device">
+        SELECT * FROM devices WHERE duid=#{duid}
+    </select>
+    <select id="getDevicesGroupByDnameAndDstatus" resultType="com.team.devmanagement.model.DevicesInfo">
+        SELECT dname from devices where dstatus="运行中" group by dname;
+        SELECT count(*) as runningNum from devices where dstatus="运行中" group by dname;
+        SELECT count(*)  as leasingNum from devices where dstatus="转借中" group by dname having dname="电吹风";
+        SELECT count(*) as maintainingNum from devices where dstatus="维修中" group by dname  having dname="电吹风";
+    </select>
+
     <select id="getAllDevices" resultType="com.team.devmanagement.model.Device">
         SELECT * FROM devices
     </select>

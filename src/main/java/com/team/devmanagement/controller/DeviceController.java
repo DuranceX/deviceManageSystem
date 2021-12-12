@@ -5,13 +5,16 @@ import com.team.devmanagement.model.Msg;
 import com.team.devmanagement.model.User;
 import com.team.devmanagement.service.DeviceService;
 import com.team.devmanagement.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
+
 
 @RestController
 public class DeviceController {
@@ -108,4 +111,20 @@ public class DeviceController {
         msg.setStatus(200);
         return msg;
     }
+
+    @PostMapping("/device/group")
+    @ApiOperation(value = "暂时不可用")
+    public Msg group(@ApiIgnore HttpSession session){
+        Msg msg = new Msg();
+        Object uid = session.getAttribute("userid");
+        if(uid==null) {
+            msg.setMsg("请先登陆");
+            return msg;
+        }
+        msg.setObj(deviceService.getDevicesGroupByDnameAndDstatus());
+        msg.setMsg("返回数据成功");
+        msg.setStatus(200);
+        return msg;
+    }
+
 }

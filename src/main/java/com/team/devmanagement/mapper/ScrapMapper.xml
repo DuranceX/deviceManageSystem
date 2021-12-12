@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.devmanagement.mapper.ScrapMapper">
+    <insert id="addItem" parameterType="com.team.devmanagement.model.Scrap">
+        INSERT INTO scrap(did,uid,sDate) VALUES (#{did},#{uid},#{sDate})
+    </insert>
+    <delete id="deleteItemById" parameterType="int">
+        DELETE FROM scrap WHERE sid=#{sid}
+    </delete>
+    <update id="updateItem" parameterType="com.team.devmanagement.model.Scrap">
+        UPDATE scrap SET did=#{did},uid=#{uid},sDate=#{sDate} where sid=#{sid}
+    </update>
+    <select id="getItemById" parameterType="int" resultType="com.team.devmanagement.model.Scrap">
+        SELECT sid,scrap.did,scrap.uid,sDate,users.username as user,devices.duid,devices.dname
+        FROM scrap,users,devices WHERE sid=#{sid} AND scrap.uid=users.uid AND scrap.did=devices.did
+    </select>
+    <select id="getItemsByUid" parameterType="int" resultType="com.team.devmanagement.model.Scrap">
+        SELECT sid,scrap.did,scrap.uid,sDate,users.username as user,devices.duid,devices.dname
+        FROM scrap,users,devices WHERE scrap.uid=#{uid} AND scrap.uid=users.uid AND scrap.did=devices.did
+    </select>
+    <select id="getAllItems" resultType="com.team.devmanagement.model.Scrap">
+        SELECT sid,scrap.did,scrap.uid,sDate,users.username as user,devices.duid,devices.dname
+        FROM scrap,users,devices WHERE scrap.uid=users.uid AND scrap.did=devices.did
+    </select>
+
+</mapper>
+

@@ -10,7 +10,10 @@
         DELETE FROM users WHERE uid=#{uid}
     </delete>
     <update id="updateUser" parameterType="com.team.devmanagement.model.User">
-        UPDATE users SET password=#{password} where uid=#{uid}
+        UPDATE users SET admin=#{admin} where uid=#{uid}
+    </update>
+    <update id="updateUserPwd" >
+        UPDATE users SET password=#{password} where username=#{username}
     </update>
     <select id="getUserById" parameterType="int" resultType="com.team.devmanagement.model.User">
         SELECT * FROM users WHERE uid=#{uid}

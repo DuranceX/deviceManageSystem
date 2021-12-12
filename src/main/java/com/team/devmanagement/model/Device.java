@@ -1,10 +1,27 @@
 package com.team.devmanagement.model;
 
+
 public class Device {
     Integer did;
     String dname;
     String dstatus;
     String duid;
+
+    public Device(Integer did, String dname, String dstatus, String duid) {
+        this.did = did;
+        this.dname = dname;
+        this.dstatus = dstatus;
+        this.duid = duid;
+    }
+
+    public Device(String dname, String dstatus, String duid) {
+        this.dname = dname;
+        this.dstatus = dstatus;
+        this.duid = duid;
+    }
+
+    public Device() {
+    }
 
     public String getDstatus() {
         return dstatus;

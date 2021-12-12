@@ -4,25 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team.devmanagement.mapper.PurchaseMapper">
     <insert id="addItem" parameterType="com.team.devmanagement.model.Purchase">
-        INSERT INTO purchase(did,uid,amount,price,pdate) VALUES (#{did},#{uid},#{amount},#{price},#{pdate})
+        INSERT INTO purchase(uid,amount,price,pdate,duid,dname) VALUES (#{uid},#{amount},#{price},#{pdate},#{duid},
+                                                                        #{dname})
     </insert>
     <delete id="deleteItemById" parameterType="int">
         DELETE FROM purchase WHERE pid=#{pid}
     </delete>
     <update id="updateItem" parameterType="com.team.devmanagement.model.Purchase">
-        UPDATE purchase SET did=#{did},uid=#{uid},amount=#{amount},price=#{price},pdate=#{pdate}  where pid=#{pid}
+        UPDATE purchase SET dname=#{dname},amount=#{amount},price=#{price},pdate=#{pdate},dname=#{dname},duid=#{duid}  where pid=#{pid}
     </update>
     <select id="getItemById" parameterType="int" resultType="com.team.devmanagement.model.Purchase">
-        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,devices.duid,pdate,price
-        FROM purchase,users,devices WHERE pid=#{pid} AND purchase.uid=users.uid AND purchase.did=devices.did
+        SELECT pid,purchase.uid,dname,amount,users.username as buyer,duid,pdate,price
+        FROM purchase,users WHERE pid=#{pid} and  purchase.uid=users.uid
     </select>
     <select id="getItemsByUid" parameterType="int" resultType="com.team.devmanagement.model.Purchase">
-        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,devices.duid,pdate,price
-        FROM purchase,users,devices WHERE purchase.uid=#{uid} AND purchase.uid=users.uid AND purchase.did=devices.did
+        SELECT pid,purchase.uid,dname,amount,users.username as buyer,duid,pdate,price
+        FROM purchase,users WHERE purchase.uid=#{uid} AND purchase.uid=#{uid}
     </select>
     <select id="getAllItems" resultType="com.team.devmanagement.model.Purchase">
-        SELECT pid,purchase.did,purchase.uid,devices.dname,amount,users.username as buyer,devices.duid,pdate,price
-        FROM purchase,users,devices WHERE purchase.uid=users.uid AND purchase.did=devices.did
+        SELECT pid,purchase.uid,dname,amount,users.username as buyer,duid,pdate,price
+        FROM purchase,users WHERE purchase.uid=users.uid
     </select>
 
 </mapper>

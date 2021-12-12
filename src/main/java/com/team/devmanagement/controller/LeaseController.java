@@ -1,9 +1,7 @@
 package com.team.devmanagement.controller;
 
-import com.team.devmanagement.model.Lease;
-import com.team.devmanagement.model.Msg;
-import com.team.devmanagement.model.Purchase;
-import com.team.devmanagement.model.User;
+import com.team.devmanagement.model.*;
+import com.team.devmanagement.service.DeviceService;
 import com.team.devmanagement.service.LeaseService;
 import com.team.devmanagement.service.PurchaseService;
 import com.team.devmanagement.service.UserService;
@@ -18,6 +16,8 @@ public class LeaseController {
     LeaseService leaseService;
     @Autowired
     UserService userService;
+    @Autowired
+    DeviceService deviceService;
 
     @PostMapping("/lease/add")
     public Msg addItem(@RequestBody Lease item, HttpSession session){
@@ -37,6 +37,10 @@ public class LeaseController {
         //如果devices表里面没有该设备，则新增
 
         if(result>0){
+            //更改设备状态
+            Device device = deviceService.getDeviceById(item.getDid());
+            device.setDstatus("转借中");
+            deviceService.updateDevice(device);
             msg.setStatus(200);
             msg.setMsg("添加成功");
         }else{
@@ -60,6 +64,10 @@ public class LeaseController {
         }
         int result = leaseService.deleteItemById(id);
         if(result>0){
+            //更改设备状态
+            Device device = deviceService.getDeviceById(item.getDid());
+            device.setDstatus("运行中");
+            deviceService.updateDevice(device);
             msg.setStatus(200);
             msg.setMsg("删除成功");
         }else{

@@ -13,15 +13,15 @@
         UPDATE maintain SET did=#{did},uid=#{uid},price=#{price},mDate=#{mDate} where mid=#{mid}
     </update>
     <select id="getItemById" parameterType="int" resultType="com.team.devmanagement.model.Maintain">
-        SELECT mid,maintain.did,maintain.uid,mDate,users.username as user,devices.duid
+        SELECT mid,maintain.did,maintain.uid,mDate,users.username as user,devices.duid,devices.dname,price
         FROM maintain,users,devices WHERE mid=#{mid} AND maintain.uid=users.uid AND maintain.did=devices.did
     </select>
     <select id="getItemsByUid" parameterType="int" resultType="com.team.devmanagement.model.Maintain">
-        SELECT mid,maintain.did,maintain.uid,mDate,users.username as user,devices.duid
+        SELECT mid,maintain.did,maintain.uid,mDate,users.username as user,devices.duid,devices.dname,price
         FROM maintain,users,devices WHERE maintain.uid=#{uid} AND maintain.uid=users.uid AND maintain.did=devices.did
     </select>
     <select id="getAllItems" resultType="com.team.devmanagement.model.Maintain">
-        SELECT mid,maintain.did,maintain.uid,mDate,users.username as user,devices.duid
+        SELECT mid,maintain.did,maintain.uid,mDate,users.username as user,devices.duid,devices.dname,price
         FROM maintain,users,devices WHERE maintain.uid=users.uid AND maintain.did=devices.did
     </select>
 

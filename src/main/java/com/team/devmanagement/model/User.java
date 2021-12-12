@@ -1,13 +1,21 @@
 package com.team.devmanagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(description = "用户Bean")
 public class User {
+    @ApiModelProperty(value="用户id")
     private Integer uid;
+    @ApiModelProperty(value="用户名")
     private String username;
+    @ApiModelProperty(value="是否为管理员")
+    private Boolean admin;
+    @ApiModelProperty(value="密码")
     @JsonIgnore
     private String password;
-    private Boolean isAdmin;
+
 
     public Integer getUid() {
         return uid;
@@ -33,11 +41,14 @@ public class User {
         this.password = password;
     }
 
+    public User() {
+    }
+
     public Boolean getAdmin() {
-        return isAdmin;
+        return admin;
     }
 
     public void setAdmin(Boolean admin) {
-        isAdmin = admin;
+        this.admin = admin;
     }
 }

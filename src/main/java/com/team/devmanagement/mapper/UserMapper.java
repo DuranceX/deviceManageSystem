@@ -10,6 +10,7 @@ public interface UserMapper {
     int addUser(User user);
     int deleteUserById(Integer uid);
     int updateUser(User user);
+    int updateUserPwd(String password,String username);
     User getUserById(Integer uid);
     User query(String username,String password);
     List<User> getAllUsers();

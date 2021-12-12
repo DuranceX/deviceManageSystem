@@ -1,25 +1,35 @@
 package com.team.devmanagement.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.nio.channels.FileLock;
 import java.util.Date;
 
+@ApiModel(description = "购买Bean")
 public class Purchase {
+    @ApiModelProperty(value="购买项id")
     Integer pid;
-    Integer did;
+    @ApiModelProperty(value="用户id")
     Integer uid;
+    @ApiModelProperty(value="设备名称")
     String dname;
+    @ApiModelProperty(value="购买设备数量")
     Integer amount;
+    @ApiModelProperty(value="经手人")
     String buyer;
+    @ApiModelProperty(value="设备号")
     String duid;
+    @ApiModelProperty(value="购买日期")
     String pdate;
+    @ApiModelProperty(value="购买经费")
     Float price;
 
     public Purchase() {
     }
 
-    public Purchase(Integer pid, Integer did, Integer uid, String dname, Integer amount, String buyer, String duid, String pdate, Float price) {
+    public Purchase(Integer pid, Integer uid, String dname, Integer amount, String buyer, String duid, String pdate, Float price) {
         this.pid = pid;
-        this.did = did;
         this.uid = uid;
         this.dname = dname;
         this.amount = amount;
@@ -45,13 +55,6 @@ public class Purchase {
         this.uid = uid;
     }
 
-    public Integer getDid() {
-        return did;
-    }
-
-    public void setDid(Integer did) {
-        this.did = did;
-    }
 
     public Integer getPid() {
         return pid;
