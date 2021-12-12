@@ -1,11 +1,5 @@
+const ENV = process.env.NODE_ENV;
 module.exports={
-    // devServer:{
-    //     //配置本地代理服务器
-    //     proxy: 'http://localhost:8080'
-    // }
-
-
-    //完整配置规则
     devServer:{
         proxy:{
             //通过这种方式的代理，只有在请求的链接添加了前缀名的时候才会触发代理转发
@@ -21,5 +15,6 @@ module.exports={
                 //changeOrigin:false     
             }
         },
-    }
+    },
+    publicPath:ENV === '/deviceManageSystem',
 }
