@@ -77,8 +77,9 @@ export default {
                     this.$alert("用户名或密码错误");
                     this.password = '';
                 }
-            }).catch(() =>{
+            }).catch((err) =>{
                 this.fullscreenLoading = false;
+                console.log(err);
                 this.$alert("登录失败，请检查网络连接");
             });
         },
