@@ -179,6 +179,8 @@ export default {
         },
         updateData(){
             this.dialogFormVisible = false;
+            this.formData.uid = this.uid;
+            console.log(this.formData);
             //接下来调用更新操作
             postRequest("/server/purchase/update",this.formData).then(res=>{
                 if(res.data.status === 200){
