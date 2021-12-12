@@ -16,5 +16,5 @@ module.exports={
             }
         },
     },
-    publicPath:ENV === '/deviceManageSystem',
+    publicPath:ENV === '/deviceManageSystem/',
 }
