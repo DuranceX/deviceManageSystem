@@ -27,6 +27,11 @@ const router = new Router({
             component:Home,
             children:[
                 {
+                    path:'/',
+                    redirect:'/Purchase',
+                    name:'主页'
+                },
+                {
                     path:'/Purchase',
                     name:'Purchase',
                     component:Purchase

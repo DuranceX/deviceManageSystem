@@ -59,12 +59,20 @@
                         </div>
                     </el-col>
                 </el-row>
+                <el-button 
+                    type="text" 
+                    :disabled="!admin" 
+                    style="color: red;font-size: 16pt;position: relative;top: -210px;left: 430px;" 
+                    icon="el-icon-close" 
+                    @click="deleteDevice()"
+                ></el-button>
             </template>
         </el-skeleton>
     </el-card>
 </template>
 
 <script>
+import {paramsPostRequest} from '../utils/api'
 export default {
     name:"Card",
     props:['data'],
@@ -81,6 +89,30 @@ export default {
         loading(){
             return this.$store.state.deviceStore.loading;
         },
+        admin(){
+            if(window.sessionStorage.getItem('admin') === 'true')
+                return true;
+            return false;
+        }
+    },
+    methods:{
+        deleteDevice(){
+            this.$confirm('此操作将删除该设备，确认删除吗','提示',{
+                type:'warning'
+            }).then(()=>{
+                paramsPostRequest('/server/device/delete',{id:this.data.did}).then(res=>{
+                    if(res.data.status === 200){
+                        this.$alert("成功删除设备");
+                        location.reload();
+                    }
+                    else if(res.data.status === 500){
+                        this.$alert(res.data.msg);
+                    }
+                }).catch(() =>{
+                        this.$alert("删除失败");
+                });
+            })
+        }
     }
 }
 </script>

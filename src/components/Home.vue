@@ -121,7 +121,6 @@ export default {
                     data.uid = window.sessionStorage.getItem("userid");
                     data.username = value;
                     data.admin = window.sessionStorage.getItem("admin");
-                    console.log(data);
                     postRequest('/server/update',data).then(res=>{
                         if(res.data.status === 200)
                         {
@@ -131,8 +130,6 @@ export default {
                                     location.reload();
                                 }
                             });
-                            
-                            
                         }
                     }).catch(()=>{
                         this.$alert("修改失败");

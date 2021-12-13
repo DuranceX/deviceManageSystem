@@ -25,7 +25,6 @@ export default {
             postRequest("/server/getUsers").then(res=>{
                 this.recordList = [];
                 this.$store.commit('deviceStore/changeStatus',false);
-                console.log("user",res.data);
                 for(var index in res.data){
                     var r = res.data[index];
                     this.recordList.push({
