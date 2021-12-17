@@ -1,16 +1,26 @@
 <template>
-  <div id="app">
-    <Login />
-  </div>
+    <router-view></router-view>
 </template>
 
 <script>
-import Login from './components/Login.vue'
-
 export default {
   name: 'App',
-  components: {
-    Login,
-  }
 }
 </script>
+
+<style lang="css">
+
+    html,body{
+      overflow: hidden;
+    }
+
+    *{
+      margin: 0;
+      padding: 0;
+    }
+
+    body{
+      background: #ebedee;
+    }   
+</style>
+

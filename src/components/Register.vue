@@ -37,11 +37,11 @@
         </svg>
         <div class="login-Container">
             <el-form label-width="80px">
-                <h2>设备管理系统</h2>
+                <h2>设备管理系统——注册</h2>
                 <el-input type="text" v-model="name" placeholder="用户名"></el-input>
                 <el-input type="password" v-model="password" placeholder="密码"></el-input>
-                <el-button type="primary" @click="submit()" v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>
-                <el-button @click="register()">注册</el-button>
+                <el-button type="primary" @click="register()">注册</el-button>
+                <el-button @click="submit()">登录</el-button>
             </el-form>
         </div>
     </div>
@@ -49,61 +49,58 @@
 
 <script>
 import {paramsPostRequest} from '../utils/api'
-import {nanoid} from 'nanoid'
 export default {
-    name:"Login",
+    name:"Register",
     data(){
         return{
             name:'',
             password:'',
-            fullscreenLoading:false,
         }
     },
     methods:{
-        //登录功能
+        //跳转到登录界面
         submit(){
-            this.fullscreenLoading = true;
-            paramsPostRequest("/server/login",{username:this.name,password:this.password}).then(res => {
-                if(res.data.status === 200){
-                    this.fullscreenLoading = false;
-                    let data = res.data.obj;
-                    this.$store.commit('userStore/login',{id:data.uid,username:data.username,admin:data.admin});
-                    this.$router.replace({
-                        path:"/Home",
-                    });
-                }
-                else if(res.data.status === 500){
-                    this.fullscreenLoading = false;
-                    this.$alert("用户名或密码错误");
-                    this.password = '';
-                }
-            }).catch((err) =>{
-                this.fullscreenLoading = false;
-                console.log(err);
-                this.$alert("登录失败，请检查网络连接");
+            this.$router.replace({
+                path:"/",
             });
         },
         //注册功能
         register(){
-            this.$router.replace({
-                path:"/Register",
+            paramsPostRequest("/server/reg",{username:this.name,password:this.password}).then(res=>{
+                console.log(res);
+                if(res.data.status === 200){
+                    this.$store.commit('userStore/login',{username:this.name,admin:this.admin});
+                    this.$alert("注册成功",{
+                        callback:()=>{
+                            this.$router.replace({
+                                path:"/",
+                            });
+                        }
+                    });
+                    
+                }
+                else if(res.data.status === 500){
+                    this.$alert(res.data.msg);
+                    this.password = '';
+                    this.username = '';
+                }
+            }).catch(()=>{
+                this.$alert("注册失败");
             });
-        },
-    },
-    mounted(){
-        console.log(nanoid(8).toUpperCase());
+        }
     }
 }
 </script>
 
 <style lang="css" scoped>
+
     .login-Container{
         background-clip: padding-box;
         text-align: center;
         border-radius: 15px;
         width: 350px;
         padding: 55px;
-        background-color: rgba(255, 255, 255, 0.863);
+        background-color: #fff;
         border: 1px solid #eaeaea;
         box-shadow: 5px 5px 20px rgba(0,0,0,.06);
         overflow: hidden;
@@ -112,10 +109,6 @@ export default {
         left: 50%;
         -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
-    }
-
-    .login-Container::before{
-        filter: blur(20px);
     }
 
     .el-input{
