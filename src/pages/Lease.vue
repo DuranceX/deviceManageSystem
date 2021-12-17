@@ -38,7 +38,7 @@
             </el-table-column>
             <el-table-column
                 prop="backDate"
-                label="购买日期"
+                label="归还日期"
                 :width="tableWidth/7">
             </el-table-column>
             <el-table-column

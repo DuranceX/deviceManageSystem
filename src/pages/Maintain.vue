@@ -14,40 +14,47 @@
             <el-table-column
                 prop="mid"
                 label="记录编号"
-                :width="tableWidth/7">
+                :width="tableWidth/8">
             </el-table-column>
             <el-table-column
                 prop="dname"
                 label="设备名"
-                :width="tableWidth/7">
+                :width="tableWidth/8">
             </el-table-column>
             <el-table-column
                 prop="duid"
                 label="序列号"
-                :width="tableWidth/7">
+                :width="tableWidth/8">
             </el-table-column>
             <el-table-column
                 prop="user"
                 label="经办人"
-                :width="tableWidth/7">
+                :width="tableWidth/8">
             </el-table-column>
             <el-table-column
                 prop="price"
                 label="维修价格"
-                :width="tableWidth/7">
+                :width="tableWidth/8">
             </el-table-column>
             <el-table-column
                 prop="mDate"
                 label="维修时间"
-                :width="tableWidth/7">
+                :width="tableWidth/8">
+            </el-table-column>
+            <el-table-column
+                prop="mStatus"
+                label="当前状态"
+                :width="tableWidth/8">
             </el-table-column>
             <el-table-column
                 fixed="right"
                 label="操作"
-                :width="tableWidth/7">
+                :width="tableWidth/8">
                 <template slot-scope="scope">
-                    <el-button @click="editRow(scope.row)" type="text" size="small">编辑</el-button>
-                    <el-button @click="deleteRow(scope.row)" type="text" size="small">删除</el-button>
+                    <el-button v-if="!admin || scope.row.mStatus === '已处理'" @click="editRow(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button v-if="admin && scope.row.mStatus === '待处理'" @click="allow(scope.row)" type="text" size="small">批准</el-button>
+                    <el-button v-if="!admin || scope.row.mStatus === '已处理'" @click="deleteRow(scope.row)" type="text" size="small">删除</el-button>
+                    <el-button v-if="admin && scope.row.mStatus === '待处理'" @click="refuse(scope.row)" type="text" size="small">拒绝</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -120,6 +127,11 @@ export default {
         },
         user(){
             return window.sessionStorage.getItem("username");
+        },
+        admin(){
+            if(window.sessionStorage.getItem('admin') === 'true')
+                return true;
+            return false;
         }
     },
     mounted(){
@@ -143,18 +155,38 @@ export default {
             this.recordList = [];
             postRequest('/server/maintain/getItems').then(res=>{
                 this.loading = false;
+                console.log(res.data.obj);
                 for(var index in res.data.obj){
                     var r = res.data.obj[index];
-                    this.recordList.unshift({
-                        mid:r.mid,
-                        did:r.did,
-                        uid:r.uid,
-                        duid:r.duid,
-                        dname:r.dname,
-                        price:r.price,
-                        user:r.user,
-                        mDate:r.mDate,
-                    });
+                    if(r.mStatus !== '待处理'){
+                        this.recordList.unshift({
+                            mid:r.mid,
+                            did:r.did,
+                            uid:r.uid,
+                            duid:r.duid,
+                            dname:r.dname,
+                            price:r.price,
+                            user:r.user,
+                            mDate:r.mDate,
+                            mStatus:r.mStatus,
+                        });
+                    }
+                }
+                for(var index1 in res.data.obj){
+                    var r1 = res.data.obj[index1];
+                    if(r1.mStatus === '待处理'){
+                        this.recordList.unshift({
+                            mid:r1.mid,
+                            did:r1.did,
+                            uid:r1.uid,
+                            duid:r1.duid,
+                            dname:r1.dname,
+                            price:r1.price,
+                            user:r1.user,
+                            mDate:r1.mDate,
+                            mStatus:r1.mStatus,
+                        });
+                    }
                 }
             }).catch(()=>{
                 this.loading = true;
@@ -227,6 +259,34 @@ export default {
                 }
             }).catch(() =>{
                 this.$alert("数据加载失败");
+            });
+        },
+        allow(row){
+            row.mStatus = "已处理";
+            postRequest("/server/maintain/update",row).then(res=>{
+                if(res.data.status === 200){
+                    this.$alert("已批准请求");
+                    this.initData();
+                }
+                else if(res.data.status === 500){
+                    this.$alert("数据更新错误");
+                }
+            }).catch(() =>{
+                    this.$alert("数据更新失败");
+            });
+        },
+        refuse(row){
+            row.mStatus = "已拒绝";
+            postRequest("/server/maintain/update",row).then(res=>{
+                if(res.data.status === 200){
+                    this.$alert("已拒绝请求");
+                    this.initData();
+                }
+                else if(res.data.status === 500){
+                    this.$alert("数据更新错误");
+                }
+            }).catch(() =>{
+                    this.$alert("数据更新失败");
             });
         }
     },
